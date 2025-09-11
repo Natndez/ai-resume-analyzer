@@ -1,6 +1,9 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "../welcome/welcome";
 import Navbar from "~/components/Navbar";
+// @ts-ignore
+import { resumes } from "constants";
+import ResumeCard from "~/components/ResumeCard";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,6 +21,16 @@ export default function Home() {
         <h2>Review your submissions and check AI-Powered feedback!</h2>
       </div>
     </section>
+
+    {resumes.length > 0 && (
+      <div className="resumes-section">
+        {/* Mapping over an array that contains different resumes */}
+        {resumes.map((resume: Resume) => (
+          <ResumeCard key={resume.id} resume={resume}/>
+        ))}
+      </div>
+    )}
+
 
   </main>;
 }
