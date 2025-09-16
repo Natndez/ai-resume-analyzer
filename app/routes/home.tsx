@@ -4,6 +4,9 @@ import Navbar from "~/components/Navbar";
 // @ts-ignore
 import { resumes } from "constants";
 import ResumeCard from "~/components/ResumeCard";
+import { usePuterStore } from "~/lib/puter";
+import { useLocation, useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,8 +16,21 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  // Getting loading state and auth from Puter
+    const { isLoading, auth } = usePuterStore();
+    // const location = useLocation();
+    // const next = location.search.split('next=')[1];
+    const navigate = useNavigate();
+
+    // To handle redirect if user is logged in or not
+    useEffect(() => {
+        if(auth.isAuthenticated) {
+            navigate('/auth?next=/');
+        }
+    }, [auth.isAuthenticated])
   return <main className="bg-[url('/images/bg-main.svg')] bg-cover">
     <Navbar />
+    {/* {window.puter.ai.chat()} */}
     <section className="main-section">
       <div className="page-heading py-16">
         <h1>Track Your Applications & Resume Ratings</h1>
